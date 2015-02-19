@@ -334,6 +334,7 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
         }
         
         if(sideDrawerViewController){
+            [self setOpenSide:drawerSide];
             CGRect newFrame;
             CGRect oldFrame = self.centerContainerView.frame;
             if(drawerSide == MMDrawerSideLeft){
