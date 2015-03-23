@@ -329,8 +329,10 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
     else {
         [self setAnimatingDrawer:animated];
         UIViewController * sideDrawerViewController = [self sideDrawerViewControllerForSide:drawerSide];
+        BOOL appearanceTransitionRunning = NO;
         if (self.openSide != drawerSide) {
-          [self prepareToPresentDrawer:drawerSide animated:animated];
+            [self prepareToPresentDrawer:drawerSide animated:animated];
+            appearanceTransitionRunning = YES;
         }
         
         if(sideDrawerViewController){
@@ -360,10 +362,12 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
              }
              completion:^(BOOL finished) {
                  //End the appearance transition if it already wasn't open.
-                 if(drawerSide != self.openSide){
+                 if(appearanceTransitionRunning)
+                 {
                      [sideDrawerViewController endAppearanceTransition];
                  }
-                 [self setOpenSide:drawerSide];
+                 else
+                     [self setOpenSide:drawerSide];
                  
                  [self resetDrawerVisualStateForDrawerSide:drawerSide];
                  [self setAnimatingDrawer:NO];
